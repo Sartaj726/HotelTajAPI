@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const roomController = require("../controllers/roomController");
-const adminMiddleware = require("../middleware/adminMiddleware");
+const authMiddleware = require("../middleware/authmiddleware");
+const adminMiddleware = require("../middleware/adminmiddleware");
 
 
 // Get All Rooms
@@ -18,11 +19,21 @@ router.post("/", roomController.createRoom);
 
 
 // Update Room - Admin Only
-router.put("/:id", adminMiddleware, roomController.updateRoom);
+router.put(
+    "/:id",
+    authMiddleware,
+    adminMiddleware,
+    roomController.updateRoom
+);
 
 
 // Delete Room - Admin Only
-router.delete("/:id", adminMiddleware, roomController.deleteRoom);
+router.delete(
+    "/:id",
+    authMiddleware,
+    adminMiddleware,
+    roomController.deleteRoom
+);
 
 
 module.exports = router;
